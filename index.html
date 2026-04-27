@@ -3,32 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book Summaries</title>
+<title>Book Summary App</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:#0f172a;
+  background:#0b1220;
   color:white;
 }
 
-nav{
-  padding:20px;
-  background:#111827;
-  display:flex;
-  justify-content:space-between;
-}
-
-.hero{
+/* HEADER */
+header{
   text-align:center;
-  padding:60px 20px;
+  padding:40px 20px;
 }
 
-.hero h1{
-  font-size:45px;
+header h1{
+  font-size:42px;
 }
 
+/* SEARCH */
+.search{
+  display:flex;
+  justify-content:center;
+  margin-bottom:20px;
+}
+
+.search input{
+  width:300px;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+}
+
+/* CARDS */
 .container{
   display:flex;
   flex-wrap:wrap;
@@ -39,25 +49,39 @@ nav{
 
 .card{
   background:#1e293b;
+  width:280px;
   padding:20px;
-  width:300px;
   border-radius:15px;
   transition:0.3s;
+  position:relative;
 }
 
 .card:hover{
-  transform:scale(1.05);
+  transform:translateY(-10px);
 }
 
-.btn{
-  display:inline-block;
+button{
   margin-top:10px;
   padding:10px;
-  background:#38bdf8;
-  color:black;
-  text-decoration:none;
+  border:none;
   border-radius:8px;
+  background:#38bdf8;
+  cursor:pointer;
   font-weight:bold;
+}
+
+/* SUMMARY ANIMATION */
+.summary{
+  max-height:0;
+  overflow:hidden;
+  transition:0.5s ease;
+  font-size:14px;
+  color:#cbd5e1;
+  margin-top:10px;
+}
+
+.card.active .summary{
+  max-height:200px;
 }
 </style>
 
@@ -65,37 +89,63 @@ nav{
 
 <body>
 
-<nav>
-  <h2>BookSumm</h2>
-  <div>Home</div>
-</nav>
+<header>
+  <h1>📚 Book Summary App</h1>
+  <p>Search & read smart summaries</p>
+</header>
 
-<div class="hero">
-  <h1>Welcome to Book Summaries 📚</h1>
-  <p>Read smart, not long</p>
+<div class="search">
+  <input type="text" id="search" placeholder="Search book..." onkeyup="filterBooks()">
 </div>
 
 <div class="container">
 
   <div class="card">
-    <h3>Book 1</h3>
-    <p>Short summary of book 1...</p>
-    <a class="btn" href="#">Read more</a>
+    <h3>Atomic Habits</h3>
+    <button onclick="toggle(this)">Open Summary</button>
+    <div class="summary">
+      A book about building good habits and breaking bad ones using small daily improvements.
+    </div>
   </div>
 
   <div class="card">
-    <h3>Book 2</h3>
-    <p>Short summary of book 2...</p>
-    <a class="btn" href="#">Read more</a>
+    <h3>Deep Work</h3>
+    <button onclick="toggle(this)">Open Summary</button>
+    <div class="summary">
+      Focus deeply without distraction to produce high quality work and improve productivity.
+    </div>
   </div>
 
   <div class="card">
-    <h3>Book 3</h3>
-    <p>Short summary of book 3...</p>
-    <a class="btn" href="#">Read more</a>
+    <h3>Rich Dad Poor Dad</h3>
+    <button onclick="toggle(this)">Open Summary</button>
+    <div class="summary">
+      Teaches financial intelligence and how to think differently about money and investing.
+    </div>
   </div>
 
 </div>
+
+<script>
+function toggle(btn){
+  let card = btn.parentElement;
+  card.classList.toggle("active");
+}
+
+function filterBooks(){
+  let input = document.getElementById("search").value.toLowerCase();
+  let cards = document.getElementsByClassName("card");
+
+  for(let i=0;i<cards.length;i++){
+    let title = cards[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+    if(title.includes(input)){
+      cards[i].style.display="block";
+    }else{
+      cards[i].style.display="none";
+    }
+  }
+}
+</script>
 
 </body>
 </html>
