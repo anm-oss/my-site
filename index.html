@@ -3,39 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book Summary App</title>
+<title>Book Summary Pro</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:#0b1220;
+  background:#0a0f1c;
   color:white;
 }
 
 /* HEADER */
 header{
   text-align:center;
-  padding:40px 20px;
+  padding:30px;
 }
 
-header h1{
-  font-size:42px;
+h1{
+  font-size:40px;
 }
 
 /* SEARCH */
-.search{
+.topbar{
   display:flex;
   justify-content:center;
+  gap:10px;
   margin-bottom:20px;
 }
 
-.search input{
+input{
   width:300px;
   padding:12px;
   border-radius:10px;
   border:none;
   outline:none;
+}
+
+.filterBtn{
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#38bdf8;
+  font-weight:bold;
 }
 
 /* CARDS */
@@ -48,40 +58,53 @@ header h1{
 }
 
 .card{
-  background:#1e293b;
   width:280px;
-  padding:20px;
+  background:#1e293b;
+  padding:15px;
   border-radius:15px;
   transition:0.3s;
   position:relative;
 }
 
 .card:hover{
-  transform:translateY(-10px);
+  transform:translateY(-8px);
 }
 
 button{
   margin-top:10px;
-  padding:10px;
+  padding:8px;
   border:none;
   border-radius:8px;
-  background:#38bdf8;
   cursor:pointer;
   font-weight:bold;
 }
 
-/* SUMMARY ANIMATION */
+.open{
+  background:#38bdf8;
+}
+
+.fav{
+  background:#f59e0b;
+  margin-left:5px;
+}
+
+/* SUMMARY */
 .summary{
   max-height:0;
   overflow:hidden;
-  transition:0.5s ease;
-  font-size:14px;
+  transition:0.4s ease;
+  font-size:13px;
   color:#cbd5e1;
   margin-top:10px;
 }
 
-.card.active .summary{
+.card.opened .summary{
   max-height:200px;
+}
+
+/* FAVORITE STYLE */
+.card.favorited{
+  border:2px solid #f59e0b;
 }
 </style>
 
@@ -90,61 +113,101 @@ button{
 <body>
 
 <header>
-  <h1>📚 Book Summary App</h1>
-  <p>Search & read smart summaries</p>
+  <h1>📚 Book Summary Pro</h1>
+  <p>Search, read & save your favorite books</p>
 </header>
 
-<div class="search">
-  <input type="text" id="search" placeholder="Search book..." onkeyup="filterBooks()">
+<div class="topbar">
+  <input type="text" id="search" placeholder="Search book..." onkeyup="searchBooks()">
+  <button class="filterBtn" onclick="showFav()">⭐ Favorites</button>
+  <button class="filterBtn" onclick="showAll()">All</button>
 </div>
 
-<div class="container">
+<div class="container" id="container">
 
   <div class="card">
     <h3>Atomic Habits</h3>
-    <button onclick="toggle(this)">Open Summary</button>
+    <button class="open" onclick="toggle(this)">Open</button>
+    <button class="fav" onclick="fav(this)">⭐</button>
     <div class="summary">
-      A book about building good habits and breaking bad ones using small daily improvements.
+      Small habits create big changes. Focus on 1% improvement daily.
     </div>
   </div>
 
   <div class="card">
     <h3>Deep Work</h3>
-    <button onclick="toggle(this)">Open Summary</button>
+    <button class="open" onclick="toggle(this)">Open</button>
+    <button class="fav" onclick="fav(this)">⭐</button>
     <div class="summary">
-      Focus deeply without distraction to produce high quality work and improve productivity.
+      Focus without distraction = high quality work & success.
     </div>
   </div>
 
   <div class="card">
     <h3>Rich Dad Poor Dad</h3>
-    <button onclick="toggle(this)">Open Summary</button>
+    <button class="open" onclick="toggle(this)">Open</button>
+    <button class="fav" onclick="fav(this)">⭐</button>
     <div class="summary">
-      Teaches financial intelligence and how to think differently about money and investing.
+      Learn financial intelligence and how money really works.
     </div>
   </div>
 
 </div>
 
 <script>
+
 function toggle(btn){
   let card = btn.parentElement;
-  card.classList.toggle("active");
+  card.classList.toggle("opened");
 }
 
-function filterBooks(){
+/* FAVORITE SYSTEM */
+function fav(btn){
+  let card = btn.parentElement;
+  card.classList.toggle("favorited");
+
+  let title = card.querySelector("h3").innerText;
+  let favs = JSON.parse(localStorage.getItem("favs") || "[]");
+
+  if(card.classList.contains("favorited")){
+    if(!favs.includes(title)) favs.push(title);
+  }else{
+    favs = favs.filter(t => t !== title);
+  }
+
+  localStorage.setItem("favs", JSON.stringify(favs));
+}
+
+/* SEARCH */
+function searchBooks(){
   let input = document.getElementById("search").value.toLowerCase();
   let cards = document.getElementsByClassName("card");
 
-  for(let i=0;i<cards.length;i++){
-    let title = cards[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
-    if(title.includes(input)){
-      cards[i].style.display="block";
-    }else{
-      cards[i].style.display="none";
-    }
+  for(let c of cards){
+    let title = c.querySelector("h3").innerText.toLowerCase();
+    c.style.display = title.includes(input) ? "block" : "none";
   }
 }
+
+/* SHOW ONLY FAVORITES */
+function showFav(){
+  let favs = JSON.parse(localStorage.getItem("favs") || "[]");
+  let cards = document.getElementsByClassName("card");
+
+  for(let c of cards){
+    let title = c.querySelector("h3").innerText;
+    c.style.display = favs.includes(title) ? "block" : "none";
+  }
+}
+
+/* SHOW ALL */
+function showAll(){
+  let cards = document.getElementsByClassName("card");
+  for(let c of cards){
+    c.style.display = "block";
+  }
+}
+
 </script>
 
 </body>
