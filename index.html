@@ -7,38 +7,82 @@
 
 <style>
 body {
-    font-family: Arial;
     margin: 0;
-    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
 }
 
+/* Header */
 header {
-    background: #1e3a8a;
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
     color: white;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
 }
 
+header h1 {
+    margin: 0;
+    font-size: 40px;
+}
+
+header p {
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* Container */
 .container {
-    width: 80%;
+    width: 85%;
     margin: auto;
     padding: 20px;
 }
 
+/* Card */
 .card {
     background: white;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #1e3a8a;
+}
+
+.card p {
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.btn:hover {
+    background: #1e3a8a;
+}
+
+/* Footer */
 footer {
     text-align: center;
-    padding: 15px;
+    padding: 20px;
     background: #1e3a8a;
     color: white;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 </style>
 
@@ -48,30 +92,33 @@ footer {
 
 <header>
     <h1>MindPulse</h1>
-    <p>Book Summaries & Learning Ideas</p>
+    <p>Smart Book Summaries & Ideas</p>
 </header>
 
 <div class="container">
 
     <div class="card">
-        <h2>Atomic Habits - Summary</h2>
-        <p>Small habits can create big results over time. Focus on 1% improvement daily.</p>
+        <h2>Atomic Habits</h2>
+        <p>Small habits lead to big results. Focus on improving 1% every day and build systems instead of goals.</p>
+        <a href="#" class="btn">Read more</a>
     </div>
 
     <div class="card">
-        <h2>Rich Dad Poor Dad - Summary</h2>
-        <p>Financial education is more important than working only for money.</p>
+        <h2>Rich Dad Poor Dad</h2>
+        <p>Financial education is more important than working only for money. Learn how money works.</p>
+        <a href="#" class="btn">Read more</a>
     </div>
 
     <div class="card">
-        <h2>Deep Work - Summary</h2>
-        <p>Focus deeply without distraction to produce high-quality results.</p>
+        <h2>Deep Work</h2>
+        <p>Focus deeply without distraction to produce high-quality and valuable work.</p>
+        <a href="#" class="btn">Read more</a>
     </div>
 
 </div>
 
 <footer>
-    <p>© 2026 MindPulse</p>
+    <p>© 2026 MindPulse | Built by You</p>
 </footer>
 
 </body>
